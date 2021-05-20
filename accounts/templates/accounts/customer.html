@@ -1,0 +1,83 @@
+{% extends 'accounts/main.html' %}
+{% load crispy_forms_filters %}
+
+{% block content %}
+
+
+<br>
+
+<div class="row">
+	<div class="col-md">
+		<div class="card card-body">
+			<h5>Participant:</h5>
+			<hr>
+			<a class="btn btn-outline-info  btn-sm btn-block" href="{% url 'update_participant' participant.id %}">Update Participant</a>
+			<a class="btn btn-outline-danger  btn-sm btn-block" href="{% url 'delete_participant' participant.id %}">Delete Participant</a>
+
+		</div>
+	</div>
+
+	<div class="col-md">
+		<div class="card card-body">
+			<h5>Contact Information</h5>
+			<hr>
+			<p>Email: {{participant.email}}</p>
+			<p>Phone: {{participant.phone}}</p>
+		</div>
+	</div>
+
+	<div class="col-md">
+		<div class="card card-body">
+			<h5>Total Events</h5>
+			<hr>
+			<h1 style="text-align: center;padding: 10px">{{event_member_count}}</h1>
+		</div>
+	</div>
+</div>
+
+
+<br>
+<div class="row">
+	<div class="col">
+		<div class="card card-body">
+			<form method="get">
+			{{myFilter.form|crispy}}
+		    <button class="btn btn-primary" type="submit">Search</button>
+		  </form>
+		</div>
+	</div>
+
+</div>
+<br>
+
+<div class="row">
+	<div class="col-md">
+		<div class="card card-body">
+			<table class="table table-sm">
+				<tr>
+					<th>Event</th>
+					<th>Location</th>
+					<th>Registered Date</th>
+					<th>Status</th>
+					<th>Update</th>
+					<th>Remove</th>
+				</tr>
+
+				{% for event_member in event_members %}
+
+				<tr>
+					<td>{{event_member.event}}</td>
+					<td>{{event_member.event.location}}</td>
+					<td>{{event_member.date_created}}</td>
+					<td>{{event_member.status}}</td>
+					<td><a class="btn btn-sm btn-info" href="{% url 'update_event_member' event_member.id %}">Update</a> </td>
+					<td><a class="btn btn-sm btn-danger" href="{% url 'delete_event_member' event_member.id %}">Delete</a> </td>
+
+				</tr>
+				{% endfor %}
+
+			</table>
+		</div>
+	</div>
+</div>
+{% endblock %}

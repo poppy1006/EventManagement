@@ -1,0 +1,25 @@
+    <style>
+
+		#logo{
+		}
+
+		body{
+			background-color: #ebeff5;
+		}
+
+
+		#total-events{
+			background-color: #4cb4c7;
+		}
+
+
+		#events-completed{
+			background-color: #7abecc;
+		}
+
+		#events-pending{
+			background-color: #7CD1C0;
+		}
+
+
+	</style>

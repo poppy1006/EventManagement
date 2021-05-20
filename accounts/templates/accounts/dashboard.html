@@ -1,0 +1,94 @@
+{% extends 'accounts/main.html' %}
+
+{% block content %}
+
+{% include 'accounts/status.html' %}
+<br>
+   <div class="row">
+	<div class="col-md-5">
+		<h5> &nbsp STUDENTS:</h5>
+		<hr>
+		<div class="card card-body">
+			<a class="btn btn-primary  btn-sm btn-block" href="{% url 'create_participant'%}">Create Student</a>
+			<table class="table table-sm">
+				<tr>
+					<th>Student</th>
+					<th>Phone</th>
+					<th>Details</th>
+				</tr>
+
+				{% for participant in participants %}
+				<tr>
+					<td>{{participant.name}}</td>
+					<td>{{participant.phone}}</td>
+					<td><a class="btn btn-sm btn-info" href="{% url 'participant' participant.id %}">View</a></td>
+				</tr>
+				{% endfor %}
+
+			</table>
+		</div>
+	</div>
+
+	<div class="col-md-7">
+		<h5>LAST 5 EVENTS</h5>
+		<hr>
+		<div class="card card-body">
+			<a class="btn btn-primary  btn-sm btn-block" href="{% url 'create_event'%}">Create Event</a>
+			<table class="table table-sm">
+				<tr>
+					<th>Event</th>
+					<th>Event Date</th>
+					<th>Status</th>
+					<th>Update</th>
+					<th>Delete</th>
+				</tr>
+
+				{% for event in events %}
+				<tr>
+					<td>{{event.name}}</td>
+					<td>{{event.date}}</td>
+					<td>{{event.status}}</td>
+					<td><a class="btn btn-sm btn-info" href="{% url 'update_event' event.id %}">Update</a> </td>
+					<td><a class="btn btn-sm btn-danger" href="{% url 'delete_event' event.id %}">Delete</a> </td>
+				</tr>
+				{% endfor %}
+
+			</table>
+		</div>
+	</div>
+
+</div>
+    		<br>
+
+		<div class="row">
+			<div class="col-md">
+				<div class="card card-body">
+					<a class="btn btn-primary  btn-sm btn-block" href="{% url 'create_event_member' %}">Register Participants</a>
+				</div>
+				<div class="card card-body">
+					<table class="table">
+						<tr>
+							<th>Participant</th>
+							<th>Event</th>
+							<th>Registered Date</th>
+							<th>Status</th>
+							<th>Update</th>
+							<th>Delete</th>
+						</tr>
+
+						{% for event_member in event_members %}
+				<tr>
+					<td>{{event_member.participant}}</td>
+					<td>{{event_member.event}}</td>
+					<td>{{event_member.date_created}}</td>
+					<td>{{event_member.status}}</td>
+					<td><a class="btn btn-sm btn-info" href="{% url 'update_event_member' event_member.id %}">Update</a> </td>
+					<td><a class="btn btn-sm btn-danger" href="{% url 'delete_event_member' event_member.id %}">Delete</a> </td>
+				</tr>
+				{% endfor %}
+					</table>
+				</div>
+			</div>
+
+		</div>
+{% endblock %}

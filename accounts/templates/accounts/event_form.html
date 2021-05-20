@@ -1,0 +1,23 @@
+{%  extends 'accounts/main.html' %}
+{% load crispy_forms_filters %}
+{% load static %}
+{% block content %}
+
+
+<div class="row">
+	<div class="col-md-5">
+		<div class="card card-body">
+
+			<form action="" method="POST">
+				{% csrf_token %}
+				{{form|crispy}}
+
+				<input class="btn btn-sm btn-info" type="submit" name="Submit">
+			</form>
+
+		</div>
+	</div>
+</div>
+
+
+{% endblock %}

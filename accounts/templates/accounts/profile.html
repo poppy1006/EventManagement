@@ -1,0 +1,35 @@
+{% extends 'accounts/main.html' %}
+
+{% block content %}
+    		<br>
+
+		<div class="row">
+			<div class="col-md">
+				<div class="card card-body">
+					<h5>Events</h5>
+				</div>
+				<div class="card card-body">
+					<table class="table">
+						<tr>
+							<th>Event</th>
+							<th>Date</th>
+							<th>Location</th>
+							<th>Status</th>
+						</tr>
+
+						{% for i in events %}
+						<tr>
+							<td>{{i.name}}</td>
+							<td>{{i.date}}</td>
+							<td>{{i.location}}</td>
+							<td>{{i.status}}</td>
+						</tr>
+						{% endfor %}
+
+					</table>
+				</div>
+			</div>
+
+		</div>
+
+{% endblock %}
