@@ -10,7 +10,7 @@ from django.contrib.auth.models import Group
 
 # Create your views here.
 from .models import *
-from .forms import EventForm, CreateUserForm , Event_MemberForm, ParticipantForm
+from .forms import EventForm, CreateUserForm, Event_MemberForm, ParticipantForm, CustomerForm
 from .filters import Event_memberFilter
 from .decorators import unauthenticated_user, allowed_users, admin_only
 
@@ -26,6 +26,11 @@ def registerPage(request):
 
             group = Group.objects.get(name='customer')
             user.groups.add(group)
+            Participant.objects.create(
+                user=user,
+                name=user.username,
+                email=user.email,
+            )
 
             messages.success(request, 'Account was created for ' + username)
 
@@ -65,33 +70,74 @@ def home(request):
     participants = Participant.objects.all()
     event_members = Event_Member.objects.all()
 
+    last_five = Event.objects.all().order_by('-id')[:5]
+    last_five_in_ascending_order = reversed(last_five)
+
+    last_five1 = Participant.objects.all().order_by('-id')[:5]
+    last_five_in_ascending_order1 = reversed(last_five1)
+
+    last_five2 = Event_Member.objects.all().order_by('-id')[:5]
+    last_five_in_ascending_order2 = reversed(last_five2)
+
     total_participants = participants.count()
     total_events = events.count()
     completed = events.filter(status='Completed').count()
     upcoming = events.filter(status='Upcoming').count()
 
-    context = {'events': events, 'participants': participants, 'event_members':event_members,'total_participants': total_participants
-        , 'total_events': total_events, 'completed': completed, 'upcoming': upcoming}
+    context = {'events': events, 'participants': participants, 'event_members': event_members,
+               'total_participants': total_participants
+        , 'total_events': total_events, 'completed': completed, 'upcoming': upcoming, 'last_five': last_five,
+               'last_five_in_ascending_order': last_five_in_ascending_order, 'last_five1': last_five1,
+               'last_five_in_ascending_order1': last_five_in_ascending_order1, 'last_five2': last_five2,
+               'last_five_in_ascending_order2': last_five_in_ascending_order2}
     return render(request, 'accounts/dashboard.html', context)
 
 
 @login_required(login_url='login')
 @allowed_users(allowed_roles=['customer'])
 def userPage(request):
-    events = request.user.participant.event_member_set.all()
+    event_members = request.user.participant.event_member_set.all()
 
-    total_events = events.count()
-    completed = events.filter(status='Completed').count()
-    upcoming = events.filter(status='Upcoming').count()
+    total_events = event_members.count()
+    completed = event_members.filter(status='Completed').count()
+    upcoming = event_members.filter(status='Pending').count()
 
-    context = {'events': events,'total_events': total_events, 'completed': completed, 'upcoming': upcoming}
+    context = {'event_members': event_members, 'total_events': total_events, 'completed': completed,
+               'upcoming': upcoming}
     return render(request, 'accounts/user.html', context)
+
+
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['customer'])
+def accountSettings(request):
+    participant = request.user.participant
+    form = CustomerForm(instance=participant)
+
+    if request.method == 'POST':
+        form = CustomerForm(request.POST, request.FILES, instance=participant)
+        if form.is_valid():
+            form.save()
+
+    context = {'form': form}
+    return render(request, 'accounts/account_settings.html', context)
 
 
 @login_required(login_url='login')
 def product(request):
     events = Event.objects.all()
     return render(request, 'accounts/profile.html', {'events': events})
+
+
+@login_required(login_url='login')
+def event_member(request):
+    event_member = Event_Member.objects.all()
+    return render(request, 'accounts/profile1.html', {'event_member': event_member})
+
+
+@login_required(login_url='login')
+def participant(request):
+    participant = Participant.objects.all()
+    return render(request, 'accounts/profile2.html', {'participant': participant})
 
 
 @login_required(login_url='login')
@@ -153,7 +199,6 @@ def deleteEvent(request, pk):
 
 
 @login_required(login_url='login')
-@allowed_users(allowed_roles=['admin'])
 def createEvent_Member(request):
     form = Event_MemberForm()
     if request.method == 'POST':
@@ -164,6 +209,7 @@ def createEvent_Member(request):
 
     context = {'form': form}
     return render(request, 'accounts/event_member_form.html', context)
+
 
 @login_required(login_url='login')
 @allowed_users(allowed_roles=['admin'])
@@ -192,6 +238,7 @@ def deleteEvent_Member(request, pk):
     context = {'item': event_member}
     return render(request, 'accounts/delete1.html', context)
 
+
 @login_required(login_url='login')
 @allowed_users(allowed_roles=['admin'])
 def createParticipant(request):
@@ -204,7 +251,6 @@ def createParticipant(request):
 
     context = {'form': form}
     return render(request, 'accounts/participant_form.html', context)
-
 
 
 @login_required(login_url='login')
@@ -222,6 +268,7 @@ def updateParticipant(request, pk):
     context = {'form': form}
     return render(request, 'accounts/participant_form.html', context)
 
+
 @login_required(login_url='login')
 @allowed_users(allowed_roles=['admin'])
 def deleteParticipant(request, pk):
@@ -232,9 +279,3 @@ def deleteParticipant(request, pk):
 
     context = {'item': participant}
     return render(request, 'accounts/delete2.html', context)
-
-
-
-
-
-

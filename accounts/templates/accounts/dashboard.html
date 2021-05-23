@@ -6,7 +6,7 @@
 <br>
    <div class="row">
 	<div class="col-md-5">
-		<h5> &nbsp STUDENTS:</h5>
+		<h5> &nbsp LAST CREATED STUDENTS:</h5>
 		<hr>
 		<div class="card card-body">
 			<a class="btn btn-primary  btn-sm btn-block" href="{% url 'create_participant'%}">Create Student</a>
@@ -17,7 +17,7 @@
 					<th>Details</th>
 				</tr>
 
-				{% for participant in participants %}
+				{% for participant in last_five1 %}
 				<tr>
 					<td>{{participant.name}}</td>
 					<td>{{participant.phone}}</td>
@@ -30,7 +30,7 @@
 	</div>
 
 	<div class="col-md-7">
-		<h5>LAST 5 EVENTS</h5>
+		<h5>LAST CREATED 5 EVENTS:</h5>
 		<hr>
 		<div class="card card-body">
 			<a class="btn btn-primary  btn-sm btn-block" href="{% url 'create_event'%}">Create Event</a>
@@ -43,7 +43,9 @@
 					<th>Delete</th>
 				</tr>
 
-				{% for event in events %}
+
+
+				{% for event in last_five %}
 				<tr>
 					<td>{{event.name}}</td>
 					<td>{{event.date}}</td>
@@ -53,15 +55,19 @@
 				</tr>
 				{% endfor %}
 
+
+
 			</table>
 		</div>
 	</div>
 
 </div>
     		<br>
+<br>
 
 		<div class="row">
 			<div class="col-md">
+				<h5><center>LAST CREATED 5 REGISTRATION:</center></h5>
 				<div class="card card-body">
 					<a class="btn btn-primary  btn-sm btn-block" href="{% url 'create_event_member' %}">Register Participants</a>
 				</div>
@@ -76,7 +82,7 @@
 							<th>Delete</th>
 						</tr>
 
-						{% for event_member in event_members %}
+						{% for event_member in last_five2 %}
 				<tr>
 					<td>{{event_member.participant}}</td>
 					<td>{{event_member.event}}</td>

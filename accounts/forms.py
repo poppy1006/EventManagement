@@ -4,6 +4,12 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django import forms
 
+class CustomerForm(ModelForm):
+	class Meta:
+		model = Participant
+		fields = '__all__'
+		exclude = ['user']
+
 
 class EventForm(ModelForm):
     class Meta:
@@ -20,7 +26,8 @@ class Event_MemberForm(ModelForm):
 class ParticipantForm(ModelForm):
     class Meta:
         model = Participant
-        fields = '__all__'
+        fields = ['name', 'phone', 'email']
+
 
 
 class CreateUserForm(UserCreationForm):

@@ -35,12 +35,12 @@ class Event(models.Model):
 
 class Event_Member(models.Model):
     STATUS = (
-        ('pending', 'Pending'),
-        ('completed', 'Completed'),
-        ('absent', 'Absent'),
+        ('Pending', 'Pending'),
+        ('Completed', 'Completed'),
+        ('Absent', 'Absent'),
     )
     participant = models.ForeignKey(Participant, null=True, on_delete=models.CASCADE)
-    event = models.ForeignKey(Event, null=True, on_delete=models.SET_NULL)
+    event = models.ForeignKey(Event, null=True, on_delete=models.CASCADE)
     date_created = models.DateTimeField(auto_now_add=True, null=True)
     status = models.CharField(max_length=200, null=True, choices=STATUS)
 

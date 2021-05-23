@@ -1,0 +1,39 @@
+{% extends 'accounts/main.html' %}
+
+{% block content %}
+    		<br>
+
+		<div class="row">
+			<div class="col-md">
+				<div class="card card-body">
+					<h5>Participants</h5>
+				</div>
+				<div class="card card-body">
+					<table class="table">
+						<tr>
+					<th>Student</th>
+					<th>Phone</th>
+					<th>email</th>
+					<th>Update</th>
+					<th>Delete</th>
+
+						</tr>
+
+				{% for participant in participant %}
+				<tr>
+					<td>{{participant.name}}</td>
+					<td>{{participant.phone}}</td>
+					<td>{{participant.email}}</td>
+					<td><a class="btn btn-sm btn-info" href="{% url 'update_participant' participant.id %}">Update</a> </td>
+					<td><a class="btn btn-sm btn-danger" href="{% url 'delete_participant' participant.id %}">Delete</a> </td>
+				</tr>
+				{% endfor %}
+					</table>
+				</div>
+			</div>
+
+		</div>
+
+		</div>
+
+{% endblock %}
