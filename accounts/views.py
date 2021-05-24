@@ -1,3 +1,5 @@
+from django.conf import settings
+from django.core.mail import send_mail
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 
@@ -98,13 +100,14 @@ def home(request):
 def userPage(request):
     participant=request.user.participant
     event_members = request.user.participant.event_member_set.all()
-
     total_events = event_members.count()
     completed = event_members.filter(status='Completed').count()
     upcoming = event_members.filter(status='Pending').count()
+    myFilter = Event_memberFilter1(request.GET, queryset=event_members)
+    event_members = myFilter.qs
 
     context = {'participant':participant,'event_members': event_members, 'total_events': total_events, 'completed': completed,
-               'upcoming': upcoming}
+               'upcoming': upcoming,'myFilter': myFilter}
     return render(request, 'accounts/user.html', context)
 
 
@@ -308,3 +311,16 @@ def deleteParticipant(request, pk):
 
     context = {'item': participant}
     return render(request, 'accounts/delete2.html', context)
+
+
+@login_required(login_url='login')
+def index(request):
+    if request.method == 'POST':
+        subject = request.POST.get('subject')
+        message = request.POST.get('message')
+        email = 'muhammedvalayath@gmail.com'
+        send_mail(subject, message, settings.EMAIL_HOST_USER,
+                  [email], fail_silently=False)
+        return render(request, 'accounts/email_sent.html')
+
+    return render(request, 'accounts/index.html', {})

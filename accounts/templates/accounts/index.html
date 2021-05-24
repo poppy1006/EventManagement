@@ -1,0 +1,50 @@
+{%  extends 'accounts/main.html' %}
+{% load crispy_forms_filters %}
+{% load static %}
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Email Form</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+      crossorigin="anonymous"
+    />
+  </head>
+  <body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md"></div>
+            <div class="col-md">
+              <br>
+              <br>
+              <h3><center>Event Creation Form</center></h3>
+              <br>
+      <form method="POST">
+        {% csrf_token %}
+        <div class="form-group">
+          <label for="exampleInputEmail1">Your Name</label>
+          <input type="text" name="subject" class="form-control">
+        </div>
+        <br>
+        <div class="form-group">
+            <label for="exampleInputEmail1">Event name and event details like location,description,date e.t.c</label>
+          <textarea  name="message" class="form-control" ></textarea>
+          </div>
+
+        <center><button type="submit" class="btn btn-primary">Send</button></center>
+      </form>
+        </div>
+        <div class="col-md-4"></div>
+    </div>
+    </div>
+  </body>
+</html>
+
+
+{% endblock %}
