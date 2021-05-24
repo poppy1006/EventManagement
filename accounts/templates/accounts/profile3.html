@@ -1,0 +1,34 @@
+{% extends 'accounts/main.html' %}
+
+{% block content %}
+    		<br>
+
+		<div class="row">
+			<div class="col-md">
+				<div class="card card-body">
+					<h5>Members</h5>
+				</div>
+				<div class="card card-body">
+					<table class="table">
+						<tr align="center">
+					<th>Student</th>
+					<th>email</th>
+
+						</tr>
+
+				{% for participant in participantss %}
+				<tr align="center">
+					<td>{{participant.name}}</td>
+					<td>{{participant.email}}</td>
+
+				</tr>
+				{% endfor %}
+					</table>
+				</div>
+			</div>
+
+		</div>
+
+		</div>
+
+{% endblock %}

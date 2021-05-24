@@ -14,15 +14,18 @@ urlpatterns = [
     path('account/', views.accountSettings, name="account"),
 
     path('events/', views.product, name='events'),
+    path('eventss/', views.eventss, name='eventss'),
     path('participants/', views.participant, name='participants'),
+    path('participantss/', views.participantss, name='participantss'),
     path('event_member/', views.event_member, name='event_member'),
     path('participant/<str:pk_test>/', views.customer, name='participant'),
+    path('event/<str:pk>/', views.event, name='event'),
 
     path('create_event/', views.createEvent, name='create_event'),
     path('update_event/<str:pk>/', views.updateEvent, name='update_event'),
     path('delete_event/<str:pk>/', views.deleteEvent, name='delete_event'),
 
-    path('create_event_member/', views.createEvent_Member, name='create_event_member'),
+    path('create_event_member/<str:pk>/', views.createEvent_Member, name='create_event_member'),
     path('update_event_member/<str:pk>/', views.updateEvent_Member, name='update_event_member'),
     path('delete_event_member/<str:pk>/', views.deleteEvent_Member, name='delete_event_member'),
 

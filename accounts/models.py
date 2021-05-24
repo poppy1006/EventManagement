@@ -24,7 +24,6 @@ class Event(models.Model):
     )
     name = models.CharField(max_length=200, null=True)
     location = models.CharField(max_length=200, null=True)
-    number_of_participants = models.CharField(max_length=200, null=True)
     status = models.CharField(max_length=200, null=True, choices=STATUS)
     description = models.CharField(max_length=200, null=True, blank=True)
     date = models.DateTimeField(blank=True, null=True)

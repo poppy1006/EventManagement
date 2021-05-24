@@ -9,27 +9,26 @@
 <div class="row">
 	<div class="col-md">
 		<div class="card card-body">
-			<h5>Participant: {{participant.name}}</h5>
+			<h5>Event: {{event.name}}</h5>
 			<hr>
-			<a class="btn btn-outline-info  btn-sm btn-block" href="{% url 'create_event_member' participant.id %}">Register Event</a>
-			<a class="btn btn-outline-info  btn-sm btn-block" href="{% url 'update_participant' participant.id %}">Update Participant</a>
-			<a class="btn btn-outline-danger  btn-sm btn-block" href="{% url 'delete_participant' participant.id %}">Delete Participant</a>
+			<a class="btn btn-outline-info  btn-sm btn-block" href="{% url 'update_event' event.id %}">Update Event</a>
+			<a class="btn btn-outline-danger  btn-sm btn-block" href="{% url 'delete_event' event.id %}">Delete Event</a>
 
 		</div>
 	</div>
 
 	<div class="col-md">
 		<div class="card card-body">
-			<h5>Contact Information</h5>
+			<h5>Event Information</h5>
 			<hr>
-			<p>Email: {{participant.email}}</p>
-			<p>Phone: {{participant.phone}}</p>
+			<p>Location: {{event.location}}</p>
+			<p>Status: {{event.status}}</p>
 		</div>
 	</div>
 
 	<div class="col-md">
 		<div class="card card-body">
-			<h5>Total Events</h5>
+			<h5>Total Participants</h5>
 			<hr>
 			<h1 style="text-align: center;padding: 10px">{{event_member_count}}</h1>
 		</div>
@@ -56,8 +55,8 @@
 		<div class="card card-body">
 			<table class="table table-sm">
 				<tr>
+					<th>Participant</th>
 					<th>Event</th>
-					<th>Location</th>
 					<th>Registered Date</th>
 					<th>Status</th>
 					<th>Update</th>
@@ -67,8 +66,8 @@
 				{% for event_member in event_members %}
 
 				<tr>
+					<td>{{event_member.participant}}</td>
 					<td>{{event_member.event}}</td>
-					<td>{{event_member.event.location}}</td>
 					<td>{{event_member.date_created}}</td>
 					<td>{{event_member.status}}</td>
 					<td><a class="btn btn-sm btn-info" href="{% url 'update_event_member' event_member.id %}">Update</a> </td>

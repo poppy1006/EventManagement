@@ -6,7 +6,7 @@
 <br>
    <div class="row">
 	<div class="col-md-5">
-		<h5> &nbsp LAST CREATED STUDENTS:</h5>
+		<h5> &nbsp LAST CREATED 5 STUDENTS:</h5>
 		<hr>
 		<div class="card card-body">
 			<a class="btn btn-primary  btn-sm btn-block" href="{% url 'create_participant'%}">Create Student</a>
@@ -39,8 +39,7 @@
 					<th>Event</th>
 					<th>Event Date</th>
 					<th>Status</th>
-					<th>Update</th>
-					<th>Delete</th>
+					<th>View</th>
 				</tr>
 
 
@@ -50,8 +49,7 @@
 					<td>{{event.name}}</td>
 					<td>{{event.date}}</td>
 					<td>{{event.status}}</td>
-					<td><a class="btn btn-sm btn-info" href="{% url 'update_event' event.id %}">Update</a> </td>
-					<td><a class="btn btn-sm btn-danger" href="{% url 'delete_event' event.id %}">Delete</a> </td>
+					<td><a class="btn btn-sm btn-info" href="{% url 'event' event.id %}">View</a></td>
 				</tr>
 				{% endfor %}
 
@@ -67,10 +65,9 @@
 
 		<div class="row">
 			<div class="col-md">
+				<br>
 				<h5><center>LAST CREATED 5 REGISTRATION:</center></h5>
-				<div class="card card-body">
-					<a class="btn btn-primary  btn-sm btn-block" href="{% url 'create_event_member' %}">Register Participants</a>
-				</div>
+				<br>
 				<div class="card card-body">
 					<table class="table">
 						<tr>

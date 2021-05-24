@@ -11,7 +11,7 @@ from django.contrib.auth.models import Group
 # Create your views here.
 from .models import *
 from .forms import EventForm, CreateUserForm, Event_MemberForm, ParticipantForm, CustomerForm
-from .filters import Event_memberFilter
+from .filters import Event_memberFilter, Event_memberFilter1
 from .decorators import unauthenticated_user, allowed_users, admin_only
 
 
@@ -96,13 +96,14 @@ def home(request):
 @login_required(login_url='login')
 @allowed_users(allowed_roles=['customer'])
 def userPage(request):
+    participant=request.user.participant
     event_members = request.user.participant.event_member_set.all()
 
     total_events = event_members.count()
     completed = event_members.filter(status='Completed').count()
     upcoming = event_members.filter(status='Pending').count()
 
-    context = {'event_members': event_members, 'total_events': total_events, 'completed': completed,
+    context = {'participant':participant,'event_members': event_members, 'total_events': total_events, 'completed': completed,
                'upcoming': upcoming}
     return render(request, 'accounts/user.html', context)
 
@@ -124,20 +125,34 @@ def accountSettings(request):
 
 @login_required(login_url='login')
 def product(request):
-    events = Event.objects.all()
+    events = Event.objects.all().order_by('date')
     return render(request, 'accounts/profile.html', {'events': events})
+
+@login_required(login_url='login')
+def eventss(request):
+    eventss = Event.objects.all().order_by('date')
+    return render(request, 'accounts/profile4.html', {'eventss': eventss})
 
 
 @login_required(login_url='login')
 def event_member(request):
-    event_member = Event_Member.objects.all()
+    event_member = Event_Member.objects.all().order_by('-date_created')
     return render(request, 'accounts/profile1.html', {'event_member': event_member})
 
 
 @login_required(login_url='login')
+@allowed_users(allowed_roles=['admin'])
 def participant(request):
-    participant = Participant.objects.all()
+    participant = Participant.objects.all().order_by('-id')
     return render(request, 'accounts/profile2.html', {'participant': participant})
+
+
+
+@login_required(login_url='login')
+def participantss(request):
+    participantss = Participant.objects.all().order_by('-id')
+    return render(request, 'accounts/profile3.html', {'participantss': participantss})
+
 
 
 @login_required(login_url='login')
@@ -153,6 +168,19 @@ def customer(request, pk_test):
     context = {'participant': participant, 'event_members': event_members, 'event_member_count': event_member_count,
                'myFilter': myFilter}
     return render(request, 'accounts/customer.html', context)
+
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['admin'])
+def event(request, pk ):
+    event = Event.objects.get(id=pk)
+    event_members = event.event_member_set.all()
+    event_member_count = event_members.count()
+
+    myFilter = Event_memberFilter1(request.GET, queryset=event_members)
+    event_members = myFilter.qs
+    context = {'event': event, 'event_members': event_members, 'event_member_count': event_member_count,
+               'myFilter': myFilter,'participant':participant}
+    return render(request, 'accounts/event.html', context)
 
 
 @login_required(login_url='login')
@@ -199,8 +227,9 @@ def deleteEvent(request, pk):
 
 
 @login_required(login_url='login')
-def createEvent_Member(request):
-    form = Event_MemberForm()
+def createEvent_Member(request, pk):
+    participant = Participant.objects.get(id=pk)
+    form = Event_MemberForm(initial={'participant': participant, 'status': 'Pending'})
     if request.method == 'POST':
         form = Event_MemberForm(request.POST)
         if form.is_valid():

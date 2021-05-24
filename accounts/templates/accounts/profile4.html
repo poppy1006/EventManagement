@@ -16,21 +16,15 @@
 							<th>Location</th>
 							<th>Status</th>
 							<th>Description</th>
-							<th>View</th>
-							<th>Update</th>
-							<th>Delete</th>
 						</tr>
 
-						{% for i in events %}
+						{% for i in eventss %}
 						<tr>
 							<td>{{i.name}}</td>
 							<td>{{i.date}}</td>
 							<td>{{i.location}}</td>
 							<td>{{i.status}}</td>
 							<td>{{i.description}}</td>
-							<td><a class="btn btn-sm btn-info" href="{% url 'event' i.id %}">View</a></td>
-							<td><a class="btn btn-sm btn-info" href="{% url 'update_event' i.id %}">Update</a> </td>
-							<td><a class="btn btn-sm btn-danger" href="{% url 'delete_event' i.id %}">Delete</a> </td>
 						</tr>
 						{% endfor %}
 
